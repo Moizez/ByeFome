@@ -1,21 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import Constants from 'expo-constants';
 import { StyleSheet, Text, View } from 'react-native';
 
-//Screens
-import LandingScreen from './src/screens/LandingScreen';
+//Navigations
+import { NavigationContainer } from '@react-navigation/native'
 
-export default function App() {
+import MainStack from './src/navigation/MainStack';
+
+const App = () => {
   return (
-    <LandingScreen />
+    <NavigationContainer>
+        <MainStack />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+
+

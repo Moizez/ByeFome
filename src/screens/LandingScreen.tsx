@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react"
+import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native';
 import * as Location from 'expo-location'
@@ -7,6 +8,7 @@ const screenWidth = Dimensions.get('screen').width
 
 const LandingScreen = () => {
 
+    const navigation = useNavigation()
     const [errorMsg, setErrorMsg] = useState('')
     const [address, setAddress] = useState<Location.LocationGeocodedAddress>()
     const [displayAddrress, setDisplayAddress] = useState('Aguardando sua localização...')
@@ -14,6 +16,7 @@ const LandingScreen = () => {
     useEffect(() => {
 
         (async () => {
+            // console.log('COORDS: ')
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setErrorMsg('Permission to access location was denied');
@@ -24,25 +27,33 @@ const LandingScreen = () => {
 
             const { coords } = location
 
+
             if (coords) {
 
                 const { latitude, longitude } = coords
                 let addressResponse: any = await Location.reverseGeocodeAsync({ latitude, longitude })
+                //console.log('COORDS: ', addressResponse)
 
-                for (let item in addressResponse) {
+                for (let item of addressResponse) {
                     setAddress(item)
-                    let currentAddress = `${item.name}, ${item.street}, ${item.postalCode}, ${item.country}`
+                    //console.log('ITEM: ', item)
+                    let currentAddress = `${item.subregion}, ${item.region}, ${item.isoCountryCode}`
                     setDisplayAddress(currentAddress)
+                    //console.log('ADDRESS: ', currentAddress)
+
+                    if (currentAddress.length > 0) {
+                        setTimeout(() => {
+                            navigation.navigate('MainTab')
+                        }, 2000);
+                    }
+
                     return
                 }
 
             } else {
                 //Avise sobre não existir a localização
             }
-
-
-
-        })
+        })()
     }, [])
 
     return (
@@ -105,13 +116,13 @@ const Text = styled.Text`
 `;
 
 const AddressTitle = styled.Text`
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     color: #7D7D7D;
 `;
 
 const AddressText = styled.Text`
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 200;
     color: #AFAFAF;
 `;
