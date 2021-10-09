@@ -1,7 +1,20 @@
 import React from "react"
 import styled from 'styled-components/native';
+import { connect } from 'react-redux'
+import { onAvailability, UserState, ApplicationState, ShoppingState } from '../redux'
+import { ShoppingReducer } from "../redux/reducers/shoppingReducer";
 
-const HomeScreen = () => {
+interface HomeProps {
+    userReducer: UserState,
+    shoppingReducer: ShoppingState,
+    onAvailability: Function
+}
+
+const _HomeScreen: React.FC<HomeProps> = (props) => {
+
+    const { location } = props.userReducer;
+    //const { availability } = props.shoppingReducer
+
     return (
         <Container>
 
@@ -10,7 +23,7 @@ const HomeScreen = () => {
             </Navigation>
 
             <Body>
-                <Text>Landing Screen</Text>
+                <Text>Landing Screen{JSON.stringify(location)}</Text>
             </Body>
 
             <Footer>
@@ -47,4 +60,11 @@ const Text = styled.Text`
 
 `;
 
-export default HomeScreen
+const mapToStateProps = (state: ApplicationState) => ({
+    userReducer: state.userReducer,
+    ShoppingReducer: state.shoppingReducer
+})
+
+const HomeScreen = connect(mapToStateProps, { onAvailability })(_HomeScreen)
+
+export { HomeScreen }

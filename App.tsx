@@ -1,17 +1,20 @@
 import React from 'react';
-import Constants from 'expo-constants';
-import { StyleSheet, Text, View } from 'react-native';
-
-//Navigations
+import { Provider } from 'react-redux'
+import { store } from './src/redux'
 import { NavigationContainer } from '@react-navigation/native'
-
 import MainStack from './src/navigation/MainStack';
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs()
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
         <MainStack />
-    </NavigationContainer>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

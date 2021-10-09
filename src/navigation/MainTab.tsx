@@ -3,8 +3,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //Screens
-import LandingScreen from "../screens/LandingScreen";
-import HomeScreen from "../screens/HomeScreen";
+import { LandingScreen } from "../screens/LandingScreen";
+import {HomeScreen} from "../screens/HomeScreen";
 import Offer from "../screens/Offer";
 import Cart from "../screens/Cart";
 import Account from "../screens/Account";
